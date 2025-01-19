@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model Exchange {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  fromUser String   @db.ObjectId
+  toUser   String   @db.ObjectId
+  bookId   String   @db.ObjectId
+  message  String
+  comments String[]
+  status   Status
+  from     User     @relation(name: "SentExchanges", fields: [fromUser], references: [id])
+  to       User     @relation(name: "ReceivedExchanges", fields: [toUser], references: [id])
+  book     Book     @relation(fields: [bookId], references: [id])
+}
+
+model User {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  email    String   @unique
+  name     String
+  password String
+  books    Book[]
+  sentExchanges     Exchange[] @relation(name: "SentExchanges")
+  receivedExchanges Exchange[] @relation(name: "ReceivedExchanges")
+}
+
+model Book {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  title    String
+  author   String
+  price    String
+  image    String
+  genre    String
+  userId   String   @db.ObjectId
+  user     User     @relation(fields: [userId], references: [id])
+  exchange Exchange[]
+}
+
+enum Status {
+   Accepted 
+   Rejected
+   Pending
+}
