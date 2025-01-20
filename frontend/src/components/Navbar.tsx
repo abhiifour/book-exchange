@@ -26,7 +26,7 @@ export default function NavBar(){
         {/* nav */}
         <div className="flex justify-between py-4 ">
             <div className="md:flex gap-8 items-center">
-            <h1 className="md:text-[32px] font-bold tracking-tighter text-[18px]">Rebooked</h1>
+            <h1 className="md:text-[32px] font-bold tracking-tighter text-[24px]">Rebooked</h1>
             <div className="flex gap-2 items-center text-[16px] tracking-tighter">
                 <button onClick={() => navigate("/explore")} className="hover:underline">Explore</button>
                 <button onClick={() => navigate("/matched")} className="hover:underline ">Matched</button>

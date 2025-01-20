@@ -127,7 +127,7 @@ const LandingPage = () => {
           </p>
         </div>
           {/* New Auth Buttons */}
-          <div className="flex justify-center gap-4 md:mt-2">
+          <div className="flex justify-center gap-4 md:mt-2 mt-6">
             <div onClick={()=>setVisible(true)}>
             <AuthButton primary>Join now</AuthButton>
             </div>
