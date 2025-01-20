@@ -41,7 +41,7 @@ function Login({ setVisible, toggleForm }: AuthProps & { toggleForm: () => void 
   const onSubmit = async(data: LoginInputs) => {
     console.log(data);
     try {
-        const response = await axios.post("http://localhost:3000/login", {
+        const response = await axios.post("https://book-exchange-ya7s.onrender.com/login", {
             email:data.email,
             password:data.password
         });
@@ -157,7 +157,7 @@ function Signup({ setVisible, toggleForm }: AuthProps & { toggleForm: () => void
   const onSubmit = async(data: SignupInputs) => {
     console.log(data);
     try {
-        const response = await axios.post("http://localhost:3000/signup", {
+        const response = await axios.post("https://book-exchange-ya7s.onrender.com/signup", {
             name:data.name,
             email:data.email,
             password:data.password
