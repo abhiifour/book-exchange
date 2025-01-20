@@ -23,7 +23,7 @@ export default function ExchangeCard({id,message,status}:{message:string,id:stri
         })
 
         dispatch(updateReceivedExchanges({id,status}))
-        console.log(response.data)
+        // console.log(response.data)
     }
 
 
@@ -40,7 +40,7 @@ export default function ExchangeCard({id,message,status}:{message:string,id:stri
     
             // dispatch(updateReceivedExchanges({id,status}))
     
-            console.log(response.data)
+            // console.log(response.data)
             if(response.data){
                 setExchangeData({
                     from: { name: response.data.exchange.from.name },

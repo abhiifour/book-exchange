@@ -72,7 +72,7 @@ export const userSlice = createSlice({
             // console.log(state.user)
         },
         updateReceivedExchanges: (state,action) =>{
-        console.log("hit")
+        // console.log("hit")
         const exchange = state.user.receivedExchanges.find(
             (exchange) => exchange.id === action.payload.id
           );

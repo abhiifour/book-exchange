@@ -18,7 +18,7 @@ export default function MyBookCard({id,title,author,price,genre,imageUrl}:{id:st
                 Authorization:`Bearer ${user.token}`
             }
         })
-        console.log(res.data)
+        // console.log(res.data)
         if(res){
             dispatch(removeMyBook({id}))
         }

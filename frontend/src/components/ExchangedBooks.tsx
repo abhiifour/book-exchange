@@ -58,8 +58,8 @@ export default function ExchangedBooks({bookId}:{bookId:string}){
          }
          BookDetails()
          ExchangeDetails()
-         console.log(bookData)
-         console.log(bookId)
+        //  console.log(bookData)
+        //  console.log(bookId)
     },[])
     
     return (

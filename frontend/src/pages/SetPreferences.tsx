@@ -49,7 +49,7 @@ const SetPreferences = () => {
         }
       })
 
-    console.log(response.data)
+    // console.log(response.data)
 
     navigate('/explore')
     }

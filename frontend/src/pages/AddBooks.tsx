@@ -91,7 +91,7 @@ function AddBooks() {
       const imageData = await response.json();
       const imageUrl = imageData.secure_url;
       // const data = await response.json();
-      console.log("Upload success:", data);
+      // console.log("Upload success:", data);
       
      
   
@@ -108,7 +108,7 @@ function AddBooks() {
           Authorization:`Bearer ${user.token}`
         }
       })
-      console.log(res.data)
+      // console.log(res.data)
       dispatch(addMyBook(res.data.book))
 
     if(res.data)

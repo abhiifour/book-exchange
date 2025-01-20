@@ -39,13 +39,13 @@ function Login({ setVisible, toggleForm }: AuthProps & { toggleForm: () => void 
   const dispatch = useDispatch()
 
   const onSubmit = async(data: LoginInputs) => {
-    console.log(data);
+    // console.log(data);
     try {
         const response = await axios.post("https://book-exchange-ya7s.onrender.com/login", {
             email:data.email,
             password:data.password
         });
-        console.log (response.data)
+        // console.log (response.data)
         dispatch(updateUser({
             email : response.data.user.email,
             books : response.data.user.books,
@@ -155,14 +155,14 @@ function Signup({ setVisible, toggleForm }: AuthProps & { toggleForm: () => void
   } = useForm<SignupInputs>();
 
   const onSubmit = async(data: SignupInputs) => {
-    console.log(data);
+    // console.log(data);
     try {
         const response = await axios.post("https://book-exchange-ya7s.onrender.com/signup", {
             name:data.name,
             email:data.email,
             password:data.password
         });
-        console.log (response.data)
+        // console.log (response.data)
         if(response)
         setIsVisible(true)
       

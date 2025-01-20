@@ -17,7 +17,7 @@ export default function ExchangeRequest(){
 
 
   
-  console.log(user)
+  // console.log(user)
     return (
         <div className="w-full font-Inter">
           <h1 className="md:text-[28px] text-[22px]">Exchange Requests</h1>
