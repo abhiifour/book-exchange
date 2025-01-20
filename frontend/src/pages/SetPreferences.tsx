@@ -1,8 +1,9 @@
 import  { useState } from 'react';
 import { X, Check } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { addPreferences } from '../store/slice/userSlice';
 
 const SetPreferences = () => {
   const genres = [
@@ -25,7 +26,7 @@ const SetPreferences = () => {
 
   const user = useSelector((state: any) => state.userState.user)
 
-
+  const dispatch = useDispatch()
   const [selectedGenres, setSelectedGenres] = useState([...user.preferences]);
 
   const toggleGenre = (genre : any) => {
@@ -39,7 +40,7 @@ const SetPreferences = () => {
   const navigate = useNavigate()
 
   async function handleUpdate(){
-    await axios.post("https://book-exchange-ya7s.onrender.com/setPreferences",{
+    const res = await axios.post("https://book-exchange-ya7s.onrender.com/setPreferences",{
         id:user.id,
         preferences : selectedGenres
       },{
@@ -48,6 +49,7 @@ const SetPreferences = () => {
         }
       })
 
+      dispatch(addPreferences(res.data.user.preferences))
     // console.log(response.data)
 
     navigate('/explore')

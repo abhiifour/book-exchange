@@ -85,11 +85,14 @@ export const userSlice = createSlice({
         },
         addMyBook :(state,action)=>{
             state.user.books.push(action.payload)
+        },
+        addPreferences : (state,action) => {
+            state.user.preferences = action.payload
         }
   
     },
    
 });
 
-export const { updateUser,updateReceivedExchanges ,removeMyBook , addMyBook} = userSlice.actions;
+export const { updateUser,updateReceivedExchanges ,removeMyBook , addMyBook , addPreferences } = userSlice.actions;
 export default userSlice.reducer;

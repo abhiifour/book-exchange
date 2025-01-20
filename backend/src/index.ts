@@ -10,8 +10,8 @@ app.use(cors({ origin: "*" }));
 
 app.use(express.json())
 
-app.get('/ping',(req :Request,res: Response) =>{
-    res.json({
+app.get('/ping',(req :Request,res: Response)=>{
+    return res.json({
         msg:"Backend is Healthy"
     })
 })

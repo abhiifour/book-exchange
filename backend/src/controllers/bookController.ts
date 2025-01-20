@@ -52,7 +52,7 @@ export async function  createBook(req:Request,res:Response):Promise<any>{
         
     })
 
-    console.log(book)
+    // console.log(book)
 
     if(!book){
         try {
@@ -121,7 +121,7 @@ export async function editBook(req:Request,res:Response):Promise<any>{
 }
 
 export async function deleteBook(req:Request,res:Response):Promise<any>{
-    console.log(req.params.id)
+    // console.log(req.params.id)
     const book = await prisma.book.findUnique({
         where:{
             id:req.params.id
