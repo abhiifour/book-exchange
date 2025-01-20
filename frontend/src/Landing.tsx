@@ -150,8 +150,7 @@ const LandingPage = () => {
       </div>
 
       {/* Subtle Background Elements */}
-      <div className="fixed top-0 right-0 w-96 h-96 bg-purple-50 rounded-full blur-3xl opacity-20" />
-      <div className="fixed bottom-0 left-0 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-20" />
+    
     </div>
   );
 };
