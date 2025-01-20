@@ -14,7 +14,7 @@ export default function ExchangeCard({id,message,status}:{message:string,id:stri
     const [exchangeData , setExchangeData] = useState<ExchangeData | null>(null)
     const dispatch = useDispatch()
     async function updateExchangeStatus(status:any){
-        const response = await axios.put(`https://book-exchange-ya7s.onrender.com/exchange/${id}`,{
+       await axios.put(`https://book-exchange-ya7s.onrender.com/exchange/${id}`,{
             status: status
         },{
             headers:{

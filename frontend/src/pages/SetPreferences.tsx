@@ -39,8 +39,7 @@ const SetPreferences = () => {
   const navigate = useNavigate()
 
   async function handleUpdate(){
-    
-    const response = await axios.post("https://book-exchange-ya7s.onrender.com/setPreferences",{
+    await axios.post("https://book-exchange-ya7s.onrender.com/setPreferences",{
         id:user.id,
         preferences : selectedGenres
       },{
