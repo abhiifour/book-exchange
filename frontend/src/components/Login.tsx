@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {  updateUser } from '../store/slice/userSlice';
 import { useNavigate } from 'react-router';
 import axios from 'axios';

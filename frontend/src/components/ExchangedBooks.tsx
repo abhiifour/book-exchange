@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import image from '../assets/10.jpg'
+// import image from '../assets/10.jpg'
 // import axios from 'axios';
 import { useSelector } from 'react-redux';
 import axios from 'axios';

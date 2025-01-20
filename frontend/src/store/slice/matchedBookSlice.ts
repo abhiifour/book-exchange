@@ -19,7 +19,7 @@ type Book = {
 
 // actions
 
-export const fetchMatchedBooks = createAsyncThunk("fetchMatchedBooks", async ({id}) =>{
+export const fetchMatchedBooks = createAsyncThunk("fetchMatchedBooks", async ({id}:{id:string}) =>{
    
     const response = await axios.get(`http://localhost:3000/books/matched/${id}`, {
         headers: {

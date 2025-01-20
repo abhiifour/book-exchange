@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { X, Check } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -19,7 +19,7 @@ const SetPreferences = () => {
     "Self-help",
     "Poetry",
     "Drama",
-    "Adventure",
+    "Adventure",    
     "Children's Literature"
   ];
 

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import ExchangeCard from "../components/ExchangeCard";
-import axios from "axios";
+// import axios from "axios";
 
 export default function ExchangeRequest(){
   const user = useSelector((state:any) => state.userState.user)

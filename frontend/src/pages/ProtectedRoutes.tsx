@@ -3,7 +3,7 @@ import NavBar from "../components/Navbar";
 import { Outlet, Navigate } from "react-router-dom";
 
 export default function ProtectedRoutes() {
-    const {user,status} = useSelector((state: any) => state.userState);
+    const user= useSelector((state: any) => state.userState.user);
     
 
     if(user?.token) return (

@@ -6,7 +6,7 @@ import ExchangedBooks from "../components/ExchangedBooks";
 
 export default function MyBooks(){
     const navigate = useNavigate()
-    const {user,status} = useSelector((state: any) => state.userState);
+    const user = useSelector((state: any) => state.userState.user);
 
     console.log(user)
     return (
