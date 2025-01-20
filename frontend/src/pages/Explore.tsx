@@ -24,7 +24,7 @@ export default function Explore() {
       <h1 className="md:text-[28px] text-[22px]">Explore</h1>
       <div className="px-4 py-6 flex flex-wrap items-center justify-center md:justify-start gap-4 auto-rows-fr">
         {status === "loading" ? (
-          <div className="w-full text-center">Loading ...</div>
+          <div className="w-full text-center py-[200px]">Loading ...</div>
         ) : books?.length > 0 ? (
           books?.map((item : any) => (
             <Card
@@ -39,7 +39,7 @@ export default function Explore() {
             />
           ))
         ) : (
-          <div className="w-full text-center">No books found</div>
+          <div className="w-full text-center py-[200px]">No books found</div>
         )}
       </div>
     </div>
