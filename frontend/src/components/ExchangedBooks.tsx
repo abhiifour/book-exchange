@@ -28,7 +28,7 @@ export default function ExchangedBooks({bookId}:{bookId:string}){
 
     useEffect(()=>{
          async function BookDetails(){
-            const res = await axios.get(`http://localhost:3000/books/${bookId}`,{
+            const res = await axios.get(`https://book-exchange-ya7s.onrender.com/books/${bookId}`,{
                 headers:{
                     Authorization:`Bearer ${user.token}`
                 }
@@ -44,7 +44,7 @@ export default function ExchangedBooks({bookId}:{bookId:string}){
          }
 
          async function ExchangeDetails(){
-            const res = await axios.get(`http://localhost:3000/exchange/${bookId}`,{
+            const res = await axios.get(`https://book-exchange-ya7s.onrender.com/exchange/${bookId}`,{
                 headers:{
                     Authorization:`Bearer ${user.token}`
                 }

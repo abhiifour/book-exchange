@@ -24,7 +24,7 @@ export default function Matching(){
 
     useEffect(()=>{
       async function getMatchedData(){
-        const response = await axios.get(`http://localhost:3000/books/matched/${user.id}`, {
+        const response = await axios.get(`https://book-exchange-ya7s.onrender.com/books/matched/${user.id}`, {
           headers: {
               Authorization: `Bearer ${user.token}`
           }

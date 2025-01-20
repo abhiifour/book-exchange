@@ -90,7 +90,7 @@ const LandingPage = () => {
 
   useEffect(()=>{
         async function wakeBackend(){
-          await axios.get("http://localhost:3000/ping");
+          await axios.get("https://book-exchange-ya7s.onrender.com/ping");
           console.log("Backend is Live")
         }
         wakeBackend()

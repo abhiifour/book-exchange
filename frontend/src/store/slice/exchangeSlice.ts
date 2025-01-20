@@ -31,7 +31,7 @@ type Exchange = {
 // actions
 
 export const fetchExchange = createAsyncThunk("fetchExchange", async () =>{
-    const response = await axios.get("http://localhost:3000/exchange",{
+    const response = await axios.get("https://book-exchange-ya7s.onrender.com/exchange",{
         headers:{
             Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGlpZm91ckBnbWFpbC5jb20iLCJpYXQiOjE3MzczMTM2NzcsImV4cCI6MTczNzM0OTY3N30.DzVfOvZdeWrCCW1Hi5qLOK2r6iyxn6uCoRyXEqiY_FI"
         }

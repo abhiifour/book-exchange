@@ -13,7 +13,7 @@ export default function MyBookCard({id,title,author,price,genre,imageUrl}:{id:st
     // const [textMessage,setTextMessage] = useState("")
     const dispatch = useDispatch()
     async function handleDelete(){
-        const res = await axios.post(`http://localhost:3000/books/${id}`,{},{
+        const res = await axios.post(`https://book-exchange-ya7s.onrender.com/books/${id}`,{},{
             headers:{
                 Authorization:`Bearer ${user.token}`
             }

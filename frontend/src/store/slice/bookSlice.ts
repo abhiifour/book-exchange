@@ -22,7 +22,7 @@ type Book = {
 // actions
 
 export const fetchBooks = createAsyncThunk("fetchBooks", async ({token}:{token:string}) =>{
-    const response = await axios.get("http://localhost:3000/books",{
+    const response = await axios.get("https://book-exchange-ya7s.onrender.com/books",{
         headers:{
             Authorization:`Bearer ${token}`
         }

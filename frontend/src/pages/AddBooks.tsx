@@ -96,7 +96,7 @@ function AddBooks() {
      
   
 
-      const res = await axios.post("http://localhost:3000/books",{
+      const res = await axios.post("https://book-exchange-ya7s.onrender.com/books",{
         title:data.title,
         author:data.author,
         price:JSON.stringify(data.price),

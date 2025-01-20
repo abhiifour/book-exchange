@@ -8,7 +8,7 @@ export default function Card({id,title,author,price,addedBy,image,genre}:{id:str
     const user = useSelector((state:any) => state.userState.user)
     const [textMessage,setTextMessage] = useState("")
     async function createExchange(){
-        await axios.post("http://localhost:3000/exchange",{
+        await axios.post("https://book-exchange-ya7s.onrender.com/exchange",{
             fromUserId:user.id,
             toUserId : addedBy,
             bookId : id,
