@@ -56,7 +56,7 @@ export async function  createBook(req:Request,res:Response):Promise<any>{
 
     if(!book){
         try {
-            await prisma.book.create({
+            const book = await prisma.book.create({
                 data: {
                     title: req.body.title,
                     author: req.body.author,
@@ -71,7 +71,7 @@ export async function  createBook(req:Request,res:Response):Promise<any>{
                 
             })
             return res.json({
-                msg:"book added "
+                book
             })
         } catch (error) {
             return res.json({
@@ -190,12 +190,72 @@ export async function deleteBook(req:Request,res:Response):Promise<any>{
 //     })
 // }
 
+// export async function getMatchedBooks(req: Request, res: Response): Promise<any> {
+//     try {
+//         // First get the user's book genres
+//         const user = await prisma.user.findFirst({
+//             where: {
+//                 id: req.params.id
+//             },
+//             include: {
+//                 books: {
+//                     select: {
+//                         genre: true
+//                     }
+//                 }
+//             }
+//         });
+
+//         console.log("User => ", user)
+
+//         if (!user) {
+//             return res.status(404).json({ error: 'User not found' });
+//         }
+
+//         // Extract unique genres from user's books
+//         const myPreferences = [...new Set(user.books.map(book => book.genre))];
+
+//         console.log("User => ", myPreferences)
+
+        
+//         const allPreferences = [...new Set([...myPreferences, ...(user.preferences || [])])];
+        
+
+//         console.log("User => ", allPreferences)
+
+//         // Get books that match preferences but aren't created by the user
+//         const preferenceBooks = await prisma.book.findMany({
+//             where: {
+               
+//                 genre: {
+//                     in: allPreferences
+//                 }
+//             },
+//             include: {
+//                 user: true
+//             }
+//         });
+
+//         console.log(preferenceBooks)
+
+//         return res.json({
+//             preferenceBooks
+//         });
+//     } catch (error) {
+//         console.error('Error in getMatchedBooks:', error);
+//         return res.status(500).json({ error: 'Internal server error' });
+//     }
+// }
+
+
 export async function getMatchedBooks(req: Request, res: Response): Promise<any> {
     try {
         // First get the user's book genres
+        const userId = req.params.id;
+        
         const user = await prisma.user.findFirst({
             where: {
-                id: req.params.id
+                id: userId
             },
             include: {
                 books: {
@@ -206,39 +266,73 @@ export async function getMatchedBooks(req: Request, res: Response): Promise<any>
             }
         });
 
+        console.log("Found user:", user?.id);
+        console.log("User's books:", user?.books);
+
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
         // Extract unique genres from user's books
         const myPreferences = [...new Set(user.books.map(book => book.genre))];
+        console.log("Extracted genres:", myPreferences);
+
+        // Safely combine preferences
+        const allPreferences = [
+            ...myPreferences,
+            ...(user.preferences?.length ? user.preferences : [])
+        ];
+
+        console.log("All preferences:", allPreferences);
+
+        // Verify we have preferences to search with
+        if (allPreferences.length === 0) {
+            return res.json({
+                preferenceBooks: [],
+                message: "No preferences found to match against"
+            });
+        }
 
         // Get books that match preferences but aren't created by the user
         const preferenceBooks = await prisma.book.findMany({
             where: {
                 AND: [
                     {
-                        genre: {
-                            in: myPreferences
-                        }
+                        OR: allPreferences.map(genre => ({
+                            genre: {
+                                equals: genre,
+                                mode: 'insensitive'
+                            }
+                        }))
                     },
                     {
                         userId: {
-                            not: req.params.id
+                            not: userId
                         }
                     }
                 ]
             },
             include: {
-                user: true
+                user: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
 
+        console.log("Found matching books:", preferenceBooks.length);
+
         return res.json({
-            preferenceBooks
+            preferenceBooks,
+            matchedGenres: allPreferences
         });
     } catch (error) {
         console.error('Error in getMatchedBooks:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ 
+            error: 'Internal server error',
+            details: error instanceof Error ? error.message : 'Unknown error'
+        });
     }
 }

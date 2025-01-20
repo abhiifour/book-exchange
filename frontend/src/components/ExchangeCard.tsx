@@ -1,6 +1,6 @@
 import axios from "axios"
 import { updateReceivedExchanges } from "../store/slice/userSlice"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 
 export default function ExchangeCard({id,message,status}:{message:string,id:string,status:any}){
@@ -9,6 +9,7 @@ export default function ExchangeCard({id,message,status}:{message:string,id:stri
         from: { name: string };
         book: { title: string; author: string };
     }
+    const user = useSelector((state:any) => state.userState.user)
 
     const [exchangeData , setExchangeData] = useState<ExchangeData | null>(null)
     const dispatch = useDispatch()
@@ -17,7 +18,7 @@ export default function ExchangeCard({id,message,status}:{message:string,id:stri
             status: status
         },{
             headers:{
-                Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGlpZm91ckBnbWFpbC5jb20iLCJpYXQiOjE3MzczMTM2NzcsImV4cCI6MTczNzM0OTY3N30.DzVfOvZdeWrCCW1Hi5qLOK2r6iyxn6uCoRyXEqiY_FI"
+                Authorization:`Bearer ${user.token}`
             }
         })
 
@@ -33,7 +34,7 @@ export default function ExchangeCard({id,message,status}:{message:string,id:stri
         async function getExchangeData(){
             const response = await axios.put(`http://localhost:3000/exchange`,{id},{
                 headers:{
-                    Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGlpZm91ckBnbWFpbC5jb20iLCJpYXQiOjE3MzczMTM2NzcsImV4cCI6MTczNzM0OTY3N30.DzVfOvZdeWrCCW1Hi5qLOK2r6iyxn6uCoRyXEqiY_FI"
+                    Authorization:`Bearer ${user.token}`
                 }
             })
     

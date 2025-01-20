@@ -56,6 +56,7 @@ export async function signup(req:Request,res:Response){
                     name:req.body.name,
                     email:req.body.email,
                     password:req.body.password,
+                    preferences:[]
                   
                 }
             })
@@ -100,3 +101,30 @@ export async function getUserData(req:Request,res:Response){
     })
    }
 }
+
+
+export async function setPreferences(req:Request,res:Response){
+   
+    try {
+     const user = await prisma.user.update({
+         where:{
+             id:req.body.id
+         },
+         data:{
+             preferences: req.body.preferences
+         }
+     })
+ 
+     if(user) return res.json({
+         user
+     })
+ 
+     return res.json({
+         msg:"user does not exist"
+     })
+    } catch (error) {
+     res.json({
+         error
+     })
+    }
+ }

@@ -32,6 +32,7 @@ model User {
   email    String   @unique
   name     String
   password String
+  preferences String[]
   books    Book[]
   sentExchanges     Exchange[] @relation(name: "SentExchanges")
   receivedExchanges Exchange[] @relation(name: "ReceivedExchanges")

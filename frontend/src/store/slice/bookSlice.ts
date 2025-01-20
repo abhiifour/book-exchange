@@ -1,6 +1,6 @@
 import {createSlice,createAsyncThunk} from "@reduxjs/toolkit"
 import axios from 'axios';
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 
 type Book = {
@@ -21,10 +21,10 @@ type Book = {
 
 // actions
 
-export const fetchBooks = createAsyncThunk("fetchBooks", async () =>{
+export const fetchBooks = createAsyncThunk("fetchBooks", async ({token}:{token:string}) =>{
     const response = await axios.get("http://localhost:3000/books",{
         headers:{
-            Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGlpZm91ckBnbWFpbC5jb20iLCJpYXQiOjE3MzczMTM2NzcsImV4cCI6MTczNzM0OTY3N30.DzVfOvZdeWrCCW1Hi5qLOK2r6iyxn6uCoRyXEqiY_FI"
+            Authorization:`Bearer ${token}`
         }
     })
     return  response.data;

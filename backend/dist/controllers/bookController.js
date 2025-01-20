@@ -68,7 +68,7 @@ function createBook(req, res) {
         console.log(book);
         if (!book) {
             try {
-                yield prisma.book.create({
+                const book = yield prisma.book.create({
                     data: {
                         title: req.body.title,
                         author: req.body.author,
@@ -81,7 +81,7 @@ function createBook(req, res) {
                     },
                 });
                 return res.json({
-                    msg: "book added "
+                    book
                 });
             }
             catch (error) {
@@ -191,13 +191,59 @@ function deleteBook(req, res) {
 //         preferenceBooks
 //     })
 // }
+// export async function getMatchedBooks(req: Request, res: Response): Promise<any> {
+//     try {
+//         // First get the user's book genres
+//         const user = await prisma.user.findFirst({
+//             where: {
+//                 id: req.params.id
+//             },
+//             include: {
+//                 books: {
+//                     select: {
+//                         genre: true
+//                     }
+//                 }
+//             }
+//         });
+//         console.log("User => ", user)
+//         if (!user) {
+//             return res.status(404).json({ error: 'User not found' });
+//         }
+//         // Extract unique genres from user's books
+//         const myPreferences = [...new Set(user.books.map(book => book.genre))];
+//         console.log("User => ", myPreferences)
+//         const allPreferences = [...new Set([...myPreferences, ...(user.preferences || [])])];
+//         console.log("User => ", allPreferences)
+//         // Get books that match preferences but aren't created by the user
+//         const preferenceBooks = await prisma.book.findMany({
+//             where: {
+//                 genre: {
+//                     in: allPreferences
+//                 }
+//             },
+//             include: {
+//                 user: true
+//             }
+//         });
+//         console.log(preferenceBooks)
+//         return res.json({
+//             preferenceBooks
+//         });
+//     } catch (error) {
+//         console.error('Error in getMatchedBooks:', error);
+//         return res.status(500).json({ error: 'Internal server error' });
+//     }
+// }
 function getMatchedBooks(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        var _a;
         try {
             // First get the user's book genres
+            const userId = req.params.id;
             const user = yield prisma.user.findFirst({
                 where: {
-                    id: req.params.id
+                    id: userId
                 },
                 include: {
                     books: {
@@ -207,38 +253,67 @@ function getMatchedBooks(req, res) {
                     }
                 }
             });
+            console.log("Found user:", user === null || user === void 0 ? void 0 : user.id);
+            console.log("User's books:", user === null || user === void 0 ? void 0 : user.books);
             if (!user) {
                 return res.status(404).json({ error: 'User not found' });
             }
             // Extract unique genres from user's books
             const myPreferences = [...new Set(user.books.map(book => book.genre))];
+            console.log("Extracted genres:", myPreferences);
+            // Safely combine preferences
+            const allPreferences = [
+                ...myPreferences,
+                ...(((_a = user.preferences) === null || _a === void 0 ? void 0 : _a.length) ? user.preferences : [])
+            ];
+            console.log("All preferences:", allPreferences);
+            // Verify we have preferences to search with
+            if (allPreferences.length === 0) {
+                return res.json({
+                    preferenceBooks: [],
+                    message: "No preferences found to match against"
+                });
+            }
             // Get books that match preferences but aren't created by the user
             const preferenceBooks = yield prisma.book.findMany({
                 where: {
                     AND: [
                         {
-                            genre: {
-                                in: myPreferences
-                            }
+                            OR: allPreferences.map(genre => ({
+                                genre: {
+                                    equals: genre,
+                                    mode: 'insensitive'
+                                }
+                            }))
                         },
                         {
                             userId: {
-                                not: req.params.id
+                                not: userId
                             }
                         }
                     ]
                 },
                 include: {
-                    user: true
+                    user: {
+                        select: {
+                            id: true,
+                            name: true
+                        }
+                    }
                 }
             });
+            console.log("Found matching books:", preferenceBooks.length);
             return res.json({
-                preferenceBooks
+                preferenceBooks,
+                matchedGenres: allPreferences
             });
         }
         catch (error) {
             console.error('Error in getMatchedBooks:', error);
-            return res.status(500).json({ error: 'Internal server error' });
+            return res.status(500).json({
+                error: 'Internal server error',
+                details: error instanceof Error ? error.message : 'Unknown error'
+            });
         }
     });
 }

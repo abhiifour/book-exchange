@@ -20,7 +20,7 @@ export default function ExchangeRequest(){
   console.log(user)
     return (
         <div className="w-full font-Inter">
-          <h1 className="text-[28px]">Exchange Requests</h1>
+          <h1 className="md:text-[28px] text-[22px]">Exchange Requests</h1>
           <div className="px-4 py-6 flex flex-wrap gap-4">
             {
               user?.receivedExchanges?.length > 0 ?

@@ -12,8 +12,14 @@ const cors_1 = __importDefault(require("cors"));
 const app = express();
 app.use((0, cors_1.default)({ origin: "*" }));
 app.use(express.json());
+app.get('/ping', (req, res) => {
+    res.json({
+        msg: "Backend is Healthy"
+    });
+});
 app.post('/login', auth_1.login);
 app.post('/signup', auth_1.signup);
+app.post('/setPreferences', auth_2.verifyToken, auth_1.setPreferences);
 app.post('/', auth_2.verifyToken, auth_1.getUserData);
 app.use('/books', auth_2.verifyToken, bookRoutes_1.default);
 app.use('/exchange', auth_2.verifyToken, exchangeRoutes_1.default);

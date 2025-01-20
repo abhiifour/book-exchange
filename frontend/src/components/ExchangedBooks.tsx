@@ -7,7 +7,7 @@ import axios from 'axios';
 
 export default function ExchangedBooks({bookId}:{bookId:string}){
     // const [interested , setInterested] = useState(false);
-    // const user = useSelector((state:any) => state.userState.user)
+    const user = useSelector((state:any) => state.userState.user)
     // const [textMessage,setTextMessage] = useState("")
 
     type BookData = {
@@ -15,6 +15,7 @@ export default function ExchangedBooks({bookId}:{bookId:string}){
         author: string;
         price : string;
         genre: string;
+        image:string;
     }
 
     type ExchangeData = {
@@ -29,10 +30,11 @@ export default function ExchangedBooks({bookId}:{bookId:string}){
          async function BookDetails(){
             const res = await axios.get(`http://localhost:3000/books/${bookId}`,{
                 headers:{
-                    Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGlpZm91ckBnbWFpbC5jb20iLCJpYXQiOjE3MzczMTM2NzcsImV4cCI6MTczNzM0OTY3N30.DzVfOvZdeWrCCW1Hi5qLOK2r6iyxn6uCoRyXEqiY_FI`
+                    Authorization:`Bearer ${user.token}`
                 }
             })
             setBookData({
+                image : res.data.book.image,
                 title: res.data.book.title,
                 author:res.data.book.author,
                 price:res.data.book.price,
@@ -44,7 +46,7 @@ export default function ExchangedBooks({bookId}:{bookId:string}){
          async function ExchangeDetails(){
             const res = await axios.get(`http://localhost:3000/exchange/${bookId}`,{
                 headers:{
-                    Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGlpZm91ckBnbWFpbC5jb20iLCJpYXQiOjE3MzczMTM2NzcsImV4cCI6MTczNzM0OTY3N30.DzVfOvZdeWrCCW1Hi5qLOK2r6iyxn6uCoRyXEqiY_FI`
+                    Authorization:`Bearer ${user.token}`
                 }
             })
             setExchangeData({
@@ -63,7 +65,7 @@ export default function ExchangedBooks({bookId}:{bookId:string}){
     return (
         <div className="font-Inter w-[258px] border rounded-xl  overflow-hidden py-4 shadow-lg">
             <div className='w-full h-[200px] m-auto relative'>
-                <img src={image} alt="" className='w-full h-full object-contain'/>
+                <img src={bookData?.image} alt="" className='w-full h-full object-contain'/>
                 <span className='text-[13px] border rounded-full px-2 py-1 absolute top-1 right-4 bg-white bg-opacity-70 backdrop-blur-sm'>{bookData?.genre}</span>
             </div>
             <div className='mt-4 px-4'>

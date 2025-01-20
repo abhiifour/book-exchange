@@ -52,6 +52,7 @@ function Login({ setVisible, toggleForm }: AuthProps & { toggleForm: () => void 
             name : response.data.user.name,
             id : response.data.user.id,
             token : response.data.token,
+            preferences : response.data.user.preferences,
             sentExchanges: response.data.user.sentExchanges,
             receivedExchanges : response.data.user.receivedExchanges
         }))

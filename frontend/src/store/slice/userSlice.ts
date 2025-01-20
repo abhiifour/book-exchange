@@ -32,6 +32,7 @@ type UserState = {
         name: string;
         books: Book[];
         token: string;
+        preferences : string [];
         sentExchanges : Exchange[];
         receivedExchanges: Exchange[]
     };
@@ -45,6 +46,7 @@ const initialState: UserState = {
         name: '',
         books: [],
         token: '',
+        preferences:[],
         sentExchanges:[],
         receivedExchanges:[]
     },
@@ -63,6 +65,7 @@ export const userSlice = createSlice({
             state.user.books = action.payload.books;
             state.user.name = action.payload.name;
             state.user.id = action.payload.id;
+            state.user.preferences = action.payload.preferences;
             state.user.token = action.payload.token;
             state.user.sentExchanges = action.payload.sentExchanges
             state.user.receivedExchanges = action.payload.receivedExchanges
@@ -79,11 +82,14 @@ export const userSlice = createSlice({
         },
         removeMyBook : (state,action) => {
             state.user.books = state.user.books.filter((book) => book.id !== action.payload.id)
+        },
+        addMyBook :(state,action)=>{
+            state.user.books.push(action.payload)
         }
-
+  
     },
    
 });
 
-export const { updateUser,updateReceivedExchanges ,removeMyBook} = userSlice.actions;
+export const { updateUser,updateReceivedExchanges ,removeMyBook , addMyBook} = userSlice.actions;
 export default userSlice.reducer;

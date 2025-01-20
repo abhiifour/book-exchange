@@ -22,8 +22,9 @@ import img21 from './assets/22.jpg'
 import img22 from './assets/23.jpg'
 import img23 from './assets/stock1.jpg'
 import img24 from './assets/24.jpg'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Login from './components/Login'
+import axios from 'axios'
 
 const topData = [
   { url: img1 },
@@ -87,13 +88,21 @@ const LandingPage = () => {
     return Math.sin(index * 0.5) * amplitude;
   };
 
+  useEffect(()=>{
+        async function wakeBackend(){
+          await axios.get("http://localhost:3000/ping");
+          console.log("Backend is Live")
+        }
+        wakeBackend()
+  },[])
+
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-between relative font-Inter">
+    <div className="min-h-screen bg-white flex flex-col md:justify-between  relative font-Inter w-full">
       {
         visible && <Login setVisible={setVisible}/>
       }
       {/* Top Row with Wave */}
-      <div className="w-full p-8">
+      <div className="md:w-full p-8 hidden md:block ">
         <div className="flex justify-center gap-4 overflow-hidden py-[30px]">
           {bottomData.map((data, i) => (
             <ProfileTile 
@@ -107,21 +116,18 @@ const LandingPage = () => {
       </div>
 
       {/* Center Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4">
+      <div className="md:flex-1 flex flex-col items-center py-[200px] md:py-0 justify-center px-4">
           
-        <div className="text-center max-w-2xl w-[700px] m-auto">
-          <h1 className="text-6xl font-bold mb-6 text-gray-900 tracking-[-4px] ">
+        <div className="text-center max-w-2xl md:w-[700px] w-full m-auto">
+          <h1 className="md:text-6xl font-bold mb-6 text-gray-900 text-4xl md:tracking-[-4px] tracking-tighter">
             You will find yourself among us
           </h1>
-          <p className="text-md text-gray-600 w-[340px] m-auto tracking-tighter">
+          <p className="md:text-md text-gray-600 md:w-[340px] m-auto tracking-tighter text-[14px]">
             Dive into a dynamic community where readers and buyers seamlessly merge.
           </p>
         </div>
           {/* New Auth Buttons */}
-          <div className="flex justify-center gap-4 mt-2">
-            <div onClick={()=>setVisible(true)}>
-            <AuthButton>Log in</AuthButton>
-            </div>
+          <div className="flex justify-center gap-4 md:mt-2">
             <div onClick={()=>setVisible(true)}>
             <AuthButton primary>Join now</AuthButton>
             </div>
@@ -130,7 +136,7 @@ const LandingPage = () => {
       </div>
 
       {/* Bottom Row with Inverse Wave */}
-      <div className="w-full p-8">
+      <div className="w-full p-8 md:block hidden" >
         <div className="flex justify-center gap-4 overflow-hidden py-[30px]">
         {topData.map((data, i) => (
             <ProfileTile 

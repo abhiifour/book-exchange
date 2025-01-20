@@ -7,12 +7,13 @@ import Matching from "./pages/Matching";
 import MyBooks from "./pages/MyBooks";
 // import NavBar from "./components/Navbar";
 import ProtectedRoutes from "./pages/ProtectedRoutes";
+import SetPreferences from "./pages/SetPreferences";
 
 export default function App(){
 
   
   return (
-    <div className="px-[200px]">
+    <div className="md:px-[200px] px-[10px] ">
       
       
      
@@ -25,6 +26,7 @@ export default function App(){
        <Route  path="request" element={<ExchangeRequest/>}/>
        <Route  path="mybooks" element={<MyBooks/>}/>
        <Route  path="addbook" element={<AddBooks/>}/>
+       <Route path="preferences" element={<SetPreferences/>}/>
        </Route>
        
       </Routes>

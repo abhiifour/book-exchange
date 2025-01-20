@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = login;
 exports.signup = signup;
 exports.getUserData = getUserData;
+exports.setPreferences = setPreferences;
 const client_1 = require("@prisma/client");
 const jwt = require("jsonwebtoken");
 const secret_key = "12345678";
@@ -61,6 +62,7 @@ function signup(req, res) {
                         name: req.body.name,
                         email: req.body.email,
                         password: req.body.password,
+                        preferences: []
                     }
                 });
                 return res.status(200).json({
@@ -87,6 +89,32 @@ function getUserData(req, res) {
                 },
                 include: {
                     books: true
+                }
+            });
+            if (user)
+                return res.json({
+                    user
+                });
+            return res.json({
+                msg: "user does not exist"
+            });
+        }
+        catch (error) {
+            res.json({
+                error
+            });
+        }
+    });
+}
+function setPreferences(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const user = yield prisma.user.update({
+                where: {
+                    id: req.body.id
+                },
+                data: {
+                    preferences: req.body.preferences
                 }
             });
             if (user)

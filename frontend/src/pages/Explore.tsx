@@ -8,20 +8,21 @@ import { AppDispatch } from "../store/store"; // Import types
 export default function Explore() {
   const dispatch: AppDispatch = useDispatch();
   const { books, status } = useSelector((state: any) => state.books);
-
+  const user = useSelector((state:any) => state.userState.user)
+  
   useEffect(() => {
-    dispatch(fetchBooks());
+    dispatch(fetchBooks({token: user.token}));
     // dispatch(fetchExchange()); // If needed
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log("Updated books:", books);
-  }, [books]);
+  // useEffect(() => {
+  //   console.log("Updated books:", books);
+  // }, [books]);
 
   return (
     <div className="w-full font-Inter">
-      <h1 className="text-[28px]">Explore</h1>
-      <div className="px-4 py-6 flex flex-wrap gap-4">
+      <h1 className="md:text-[28px] text-[22px]">Explore</h1>
+      <div className="px-4 py-6 flex flex-wrap items-center justify-center md:justify-start gap-4 auto-rows-fr">
         {status === "loading" ? (
           <div className="w-full text-center">Loading ...</div>
         ) : books?.length > 0 ? (

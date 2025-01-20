@@ -16,15 +16,17 @@ export default function Matching(){
       author: string;
       price: string;
       addedBy : string;
+      genre:string;
+      image:string;
     }
 
-    const [matchedBooks ,setMatchedBooks] = useState<MatchedBook [] | null>(null)
+    const [matchedBooks ,setMatchedBooks] = useState<MatchedBook [] >([])
 
     useEffect(()=>{
       async function getMatchedData(){
         const response = await axios.get(`http://localhost:3000/books/matched/${user.id}`, {
           headers: {
-              Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGlpZm91ckBnbWFpbC5jb20iLCJpYXQiOjE3MzczMTM2NzcsImV4cCI6MTczNzM0OTY3N30.DzVfOvZdeWrCCW1Hi5qLOK2r6iyxn6uCoRyXEqiY_FI"
+              Authorization: `Bearer ${user.token}`
           }
         });
         console.log(response.data)
@@ -43,8 +45,8 @@ export default function Matching(){
     // },[matchedBooks])
     return (
         <div className="w-full font-Inter">
-          <h1 className="text-[28px]">Matched by your preferences</h1>
-          <div className="px-4 py-6 flex flex-wrap gap-4">
+          <h1 className="md:text-[28px] text-[22px]">Matched by your preferences</h1>
+          <div className="px-4 py-6 flex flex-wrap gap-4 items-center justify-center md:justify-start">
 
           { status === "loading" ? (
                    <div className="w-full text-center">Loading ...</div>
@@ -55,6 +57,8 @@ export default function Matching(){
                        id={item.id}
                        title={item.title}
                        author={item.author}
+                       image={item.image}
+                       genre={item.genre}
                        price={item.price}
                        addedBy={item.user?.name ?? "Unknown"}
                      />

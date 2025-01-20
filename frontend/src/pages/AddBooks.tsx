@@ -5,8 +5,9 @@ import * as z from "zod";
 
 
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { addMyBook } from "../store/slice/userSlice";
 
 // ✅ Updated validation schema with genre
 const bookSchema = z.object({
@@ -50,7 +51,8 @@ function AddBooks() {
   ];
 
   const navigate = useNavigate()
-  // ✅ Handle Drag & Drop
+  
+  const dispatch = useDispatch()
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
@@ -74,40 +76,58 @@ function AddBooks() {
     
     imgData.append("file", data.image);
     imgData.append("upload_preset", "first_time");
-    
-    const res = await fetch("https://api.cloudinary.com/v1_1/djn8q3ywh/upload", {
-      method: "POST",
-      body: imgData,
-    });
+  
 
-    
-    const imageData = await res.json();
-    const imageUrl = imageData.secure_url;
-    
-    console.log("Image URL:", imageUrl);
-    console.log("Book Data:", data);
 
-    const response = await axios.post("http://localhost:3000/books",{
-      title:data.title,
-      author:data.author,
-      price:JSON.stringify(data.price),
-      imageUrl: imageUrl,
-      userId: user.id,
-      genre: data.genre
-    },{
-      headers:{
-        Authorization:`Bearer ${user.token}`
+    try {
+      
+      const response = await fetch("https://api.cloudinary.com/v1_1/djn8q3ywh/upload", {
+        method: "POST",
+        body: imgData,
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    })
-    console.log(response.data)
+      const imageData = await response.json();
+      const imageUrl = imageData.secure_url;
+      // const data = await response.json();
+      console.log("Upload success:", data);
+      
+     
+  
+
+      const res = await axios.post("http://localhost:3000/books",{
+        title:data.title,
+        author:data.author,
+        price:JSON.stringify(data.price),
+        imageUrl: imageUrl,
+        userId: user.id,
+        genre: data.genre
+      },{
+        headers:{
+          Authorization:`Bearer ${user.token}`
+        }
+      })
+      console.log(res.data)
+      dispatch(addMyBook(res.data.book))
+
+    if(res.data)
     navigate('/explore')
+      
+
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
+    
+   
+    
     // alert("Book added successfully!");
 };
 
   return (
-    <div className="font-Inter">
-      <h1 className="text-[28px]">Add a book</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-[700px] flex flex-col gap-6 mt-6">
+    <div className="w-full font-Inter">
+      <h1 className="md:text-[28px] text-[22px]">Add a book</h1>
+      <form onSubmit={handleSubmit(onSubmit)} className="md:w-[700px] w-full flex flex-col gap-6 mt-6">
         {/* Title */}
         <div className="flex flex-col gap-2">
           <label className="block font-semibold">Title</label>
@@ -179,7 +199,7 @@ function AddBooks() {
         {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
 
         {/* Submit Button */}
-        <button type="submit" className="bg-black text-white px-4 py-2 rounded-full w-[150px]">
+        <button type="submit" className="bg-black text-white px-4 py-2 rounded-full md:w-[150px] text-[14px] md:text-[16px]">
           Submit
         </button>
       </form>
