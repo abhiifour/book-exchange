@@ -120,7 +120,7 @@ const LandingPage = () => {
           
         <div className="text-center max-w-2xl md:w-[700px] w-full m-auto">
           <h1 className="md:text-6xl font-bold mb-6 text-gray-900 text-4xl md:tracking-[-4px] tracking-tighter">
-            You will find yourself among us
+            You will find yourself among us nice
           </h1>
           <p className="md:text-md text-gray-600 md:w-[340px] m-auto tracking-tighter text-[14px]">
             Dive into a dynamic community where readers and buyers seamlessly merge.
